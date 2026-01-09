@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Washing Machine Open API</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        pre code { border-radius: 8px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="gradient-bg p-2 rounded-xl"><i class="fas fa-soap text-white text-lg"></i></div>
+                <span class="font-bold text-xl text-slate-900">WashingMachine API</span>
+
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="#get-api-key" class="text-sm font-medium text-slate-600 hover:text-blue-600">Get API Key</a>
+                <a href="#documentation" class="text-sm font-medium text-slate-600 hover:text-blue-600">Dokumentasi</a>
+                <a href="/admin.html" class="text-sm font-medium text-slate-500 hover:text-blue-600"><i class="fas fa-user-shield mr-1"></i>Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="gradient-bg text-white py-20">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Washing Machine Data API</h1>
+            <div class="flex justify-center gap-4 flex-wrap">
+                <a href="#get-api-key" class="bg-white text-purple-700 px-8 py-3 rounded-xl font-bold hover:bg-slate-100 transition shadow-lg"><i class="fas fa-key mr-2"></i>Dapatkan API Key Gratis</a>
+                <a href="#documentation" class="border-2 border-white/50 text-white px-8 py-3 rounded-xl font-bold hover:bg-white/10 transition"><i class="fas fa-book mr-2"></i>Lihat Dokumentasi</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-12 bg-white border-b">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div><h3 class="text-3xl font-bold text-purple-600">25+</h3><p class="text-slate-500">Produk Mesin Cuci</p></div>
+                <div><h3 class="text-3xl font-bold text-purple-600">10+</h3><p class="text-slate-500">Merk Ternama</p></div>
+                <div><h3 class="text-3xl font-bold text-purple-600">4</h3><p class="text-slate-500">Tipe Mesin Cuci</p></div>
+                <div><h3 class="text-3xl font-bold text-purple-600">99.9%</h3><p class="text-slate-500">Uptime</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="get-api-key" class="py-16 bg-slate-100">
+        <div class="max-w-2xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">🔑 Generate API Key</h2>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-lg p-8">
+                <form id="registerForm" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Nama*</label>
+                        <input type="text" id="namaPerusahaan" required placeholder="user" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Email*</label>
+                        <input type="email" id="email" required placeholder="developer@company.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">No. Telepon</label>
+                        <input type="tel" id="noTelepon" placeholder="021-1234567" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Website</label>
+                        <input type="url" id="website" placeholder="https://www.company.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Alamat</label>
+                        <textarea id="alamat" rows="2" placeholder="Jl. Contoh No. 123, Jakarta" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none resize-none"></textarea>
+                    </div>
+                    <button type="submit" id="submitBtn" class="w-full gradient-bg text-white py-4 rounded-xl font-bold hover:opacity-90 transition shadow-lg flex items-center justify-center gap-2">
+                        <i class="fas fa-key"></i><span id="btnText">Generate API Key</span><i id="loadingSpinner" class="fas fa-spinner fa-spin hidden"></i>
+                    </button>
+                </form>
+
+                <div id="resultSection" class="hidden mt-8">
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-green-500 text-white p-2 rounded-full"><i class="fas fa-check"></i></div>
+                            <h3 class="font-bold text-green-800">API Key Berhasil Dibuat!</h3>
+                        </div>
+                        <p class="text-sm text-green-700 mb-4">Simpan API Key ini dengan aman. API Key hanya ditampilkan sekali.</p>
+                        <div class="bg-white rounded-lg p-4 border border-green-200">
+                            <label class="text-xs font-bold text-slate-500 uppercase">Your API Key</label>
+                            <div class="flex items-center gap-2 mt-2">
+                                <code id="apiKeyResult" class="flex-1 bg-slate-100 px-4 py-3 rounded-lg font-mono text-sm break-all"></code>
+                                <button onclick="copyApiKey()" class="bg-purple-600 text-white px-4 py-3 rounded-lg hover:bg-purple-700 transition"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-600">
+                            <p><strong>Nama:</strong> <span id="resultCompany"></span></p>
+                            <p><strong>Email:</strong> <span id="resultEmail"></span></p>
+                            <p><strong>Berlaku Hingga:</strong> <span id="resultExpires"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="errorSection" class="hidden mt-6"><div class="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm"></div></div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-lg p-8 mt-8">
+                <h3 class="text-xl font-bold text-slate-900 mb-4"><i class="fas fa-shield-alt text-purple-600 mr-2"></i>Verifikasi API Key</h3>
+                <form id="verifyForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">API Key</label>
+                        <input type="text" id="verifyApiKey" required placeholder="Masukkan API Key Anda" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-mono text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none">
+                    </div>
+                    <button type="submit" class="bg-slate-700 text-white py-3 px-6 rounded-xl font-bold hover:bg-slate-800 transition"><i class="fas fa-search mr-2"></i>Verifikasi</button>
+                </form>
+                <div id="verifyResult" class="hidden mt-4"></div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="documentation" class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">📖 API Documentation</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto">RESTful API yang mudah diintegrasikan. Semua endpoint memerlukan API Key melalui header.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-8">
+                <h3 class="text-xl font-bold text-slate-900 mb-4"><i class="fas fa-lock text-purple-600 mr-2"></i>Authentication</h3>
+                <p class="text-slate-600 mb-4">Semua request harus menyertakan API Key di header <code class="bg-slate-100 px-2 py-1 rounded text-sm">x-api-key</code></p>
+                <pre><code class="language-bash">curl -X GET "https://api.example.com/api/v1/products" \
+  -H "x-api-key: YOUR_API_KEY_HERE"</code></pre>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-8">
+                <h3 class="text-xl font-bold text-slate-900 mb-4"><i class="fas fa-server text-purple-600 mr-2"></i>Base URL</h3>
+                <pre><code class="language-plaintext">https://your-domain.com/api/v1</code></pre>
+            </div>
+
+            <div class="space-y-6">
+                <h3 class="text-xl font-bold text-slate-900"><i class="fas fa-plug text-purple-600 mr-2"></i>Endpoints</h3>
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="bg-green-50 px-6 py-4 border-b border-slate-200 flex items-center gap-3">
+                        <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">GET</span>
+                        <code class="font-mono text-slate-800">/products</code>
+                        <span class="text-slate-500 text-sm ml-auto">Ambil semua data mesin cuci</span>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-slate-700 mb-3">Query Parameters</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-slate-50"><tr><th class="text-left px-4 py-2 font-bold text-slate-600">Parameter</th><th class="text-left px-4 py-2 font-bold text-slate-600">Type</th><th class="text-left px-4 py-2 font-bold text-slate-600">Description</th></tr></thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <tr><td class="px-4 py-2"><code>page</code></td><td class="px-4 py-2">integer</td><td class="px-4 py-2">Nomor halaman (default: 1)</td></tr>
+                                    <tr><td class="px-4 py-2"><code>limit</code></td><td class="px-4 py-2">integer</td><td class="px-4 py-2">Jumlah per halaman (default: 10)</td></tr>
+                                    <tr><td class="px-4 py-2"><code>merk</code></td><td class="px-4 py-2">string</td><td class="px-4 py-2">Filter berdasarkan merk</td></tr>
+                                    <tr><td class="px-4 py-2"><code>tipe</code></td><td class="px-4 py-2">string</td><td class="px-4 py-2">TOP_LOADING, FRONT_LOADING, TWIN_TUB, PORTABLE</td></tr>
+                                    <tr><td class="px-4 py-2"><code>minKapasitas</code></td><td class="px-4 py-2">number</td><td class="px-4 py-2">Kapasitas minimum (KG)</td></tr>
+                                    <tr><td class="px-4 py-2"><code>maxKapasitas</code></td><td class="px-4 py-2">number</td><td class="px-4 py-2">Kapasitas maksimum (KG)</td></tr>
+                                    <tr><td class="px-4 py-2"><code>minHarga</code></td><td class="px-4 py-2">integer</td><td class="px-4 py-2">Harga minimum (Rupiah)</td></tr>
+                                    <tr><td class="px-4 py-2"><code>maxHarga</code></td><td class="px-4 py-2">integer</td><td class="px-4 py-2">Harga maksimum (Rupiah)</td></tr>
+                                    <tr><td class="px-4 py-2"><code>tahun</code></td><td class="px-4 py-2">integer</td><td class="px-4 py-2">Tahun rilis</td></tr>
+                                    <tr><td class="px-4 py-2"><code>search</code></td><td class="px-4 py-2">string</td><td class="px-4 py-2">Pencarian di merk, model, deskripsi</td></tr>
+                                    <tr><td class="px-4 py-2"><code>sortBy</code></td><td class="px-4 py-2">string</td><td class="px-4 py-2">createdAt, harga, kapasitas, merk, tahunRilis</td></tr>
+                                    <tr><td class="px-4 py-2"><code>sortOrder</code></td><td class="px-4 py-2">string</td><td class="px-4 py-2">ASC atau DESC</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h4 class="font-bold text-slate-700 mt-6 mb-3">Example Request</h4>
+                        <pre><code class="language-bash">curl -X GET "https://api.example.com/api/v1/products?merk=Samsung&limit=5" \
+  -H "x-api-key: YOUR_API_KEY"</code></pre>
+                        <h4 class="font-bold text-slate-700 mt-6 mb-3">Example Response</h4>
+                        <pre><code class="language-json">{
+  "success": true,
+  "pagination": { "total": 25, "page": 1, "limit": 5, "totalPages": 5 },
+  "data": [{
+    "id": 1,
+    "merk": "Samsung",
+    "model": "WW90T654DLH",
+    "tipe": "FRONT_LOADING",
+    "kapasitas": 9.0,
+    "warna": "White",
+    "harga": 8500000,
+    "tahun_rilis": 2023,
+    "spesifikasi": { "dimensi": "60 x 55 x 85 cm", "daya_listrik": "480 Watt" },
+    "fitur": ["AI Control", "Steam Wash"],
+    "deskripsi": "Mesin cuci front loading Samsung",
+    "gambar_url": null
+  }]
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="bg-green-50 px-6 py-4 border-b border-slate-200 flex items-center gap-3">
+                        <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">GET</span>
+                        <code class="font-mono text-slate-800">/products/:id</code>
+                        <span class="text-slate-500 text-sm ml-auto">Detail produk berdasarkan ID</span>
+                    </div>
+                    <div class="p-6"><pre><code class="language-bash">curl -X GET "https://api.example.com/api/v1/products/1" -H "x-api-key: YOUR_API_KEY"</code></pre></div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="bg-green-50 px-6 py-4 border-b border-slate-200 flex items-center gap-3">
+                        <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">GET</span>
+                        <code class="font-mono text-slate-800">/products/model/:model</code>
+                        <span class="text-slate-500 text-sm ml-auto">Detail produk berdasarkan nomor model</span>
+                    </div>
+                    <div class="p-6"><pre><code class="language-bash">curl -X GET "https://api.example.com/api/v1/products/model/WW90T654DLH" -H "x-api-key: YOUR_API_KEY"</code></pre></div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="bg-green-50 px-6 py-4 border-b border-slate-200 flex items-center gap-3">
+                        <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">GET</span>
+                        <code class="font-mono text-slate-800">/products/brands</code>
+                        <span class="text-slate-500 text-sm ml-auto">Daftar semua merk</span>
+                    </div>
+                    <div class="p-6"><pre><code class="language-json">{ "success": true, "data": [{ "merk": "Samsung", "count": 4 }, { "merk": "LG", "count": 4 }] }</code></pre></div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="bg-green-50 px-6 py-4 border-b border-slate-200 flex items-center gap-3">
+                        <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">GET</span>
+                        <code class="font-mono text-slate-800">/products/types</code>
+                        <span class="text-slate-500 text-sm ml-auto">Daftar semua tipe</span>
+                    </div>
+                    <div class="p-6"><pre><code class="language-json">{ "success": true, "data": [{ "tipe": "FRONT_LOADING", "label": "Front Loading", "count": 7 }] }</code></pre></div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="bg-green-50 px-6 py-4 border-b border-slate-200 flex items-center gap-3">
+                        <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">GET</span>
+                        <code class="font-mono text-slate-800">/products/stats</code>
+                        <span class="text-slate-500 text-sm ml-auto">Statistik data</span>
+                    </div>
+                    <div class="p-6"><pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "total_products": 25,
+    "by_merk": [{ "merk": "Samsung", "count": 4 }],
+    "by_tipe": [{ "tipe": "FRONT_LOADING", "count": 7 }],
+    "price_range": { "min": 1500000, "max": 9200000, "avg": 4500000 }
+  }
+}</code></pre></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mt-8">
+                <h3 class="text-xl font-bold text-slate-900 mb-4"><i class="fas fa-exclamation-triangle text-orange-500 mr-2"></i>Error Codes</h3>
+                <table class="w-full text-sm">
+                    <thead class="bg-slate-50"><tr><th class="text-left px-4 py-3 font-bold text-slate-600">Code</th><th class="text-left px-4 py-3 font-bold text-slate-600">Description</th></tr></thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr><td class="px-4 py-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">401</code></td><td class="px-4 py-3">API Key tidak ditemukan atau tidak valid</td></tr>
+                        <tr><td class="px-4 py-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">403</code></td><td class="px-4 py-3">API Key tidak aktif atau sudah kadaluarsa</td></tr>
+                        <tr><td class="px-4 py-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">404</code></td><td class="px-4 py-3">Data tidak ditemukan</td></tr>
+                        <tr><td class="px-4 py-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">500</code></td><td class="px-4 py-3">Internal server error</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+     
+    <footer class="bg-slate-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="gradient-bg p-2 rounded-xl"><i class="fas fa-soap text-white"></i></div>
+                        <span class="font-bold text-lg">WashingMachine API</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="#documentation" class="hover:text-white">Documentation</a></li>
+                        <li><a href="#pricing" class="hover:text-white">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Company</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center text-slate-500 text-sm">&copy; 2026 WashingMachine API. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        hljs.highlightAll();
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const resultSection = document.getElementById('resultSection');
+            const errorSection = document.getElementById('errorSection');
+
+            submitBtn.disabled = true;
+            btnText.textContent = 'Processing...';
+            loadingSpinner.classList.remove('hidden');
+            resultSection.classList.add('hidden');
+            errorSection.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/client/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        namaPerusahaan: document.getElementById('namaPerusahaan').value,
+                        email: document.getElementById('email').value,
+                        noTelepon: document.getElementById('noTelepon').value,
+                        website: document.getElementById('website').value,
+                        alamat: document.getElementById('alamat').value
+                    })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('apiKeyResult').textContent = result.data.apiKey;
+                    document.getElementById('resultCompany').textContent = result.data.namaPerusahaan;
+                    document.getElementById('resultEmail').textContent = result.data.email;
+                    document.getElementById('resultExpires').textContent = new Date(result.data.expiresAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+                    resultSection.classList.remove('hidden');
+                    document.getElementById('registerForm').reset();
+                } else {
+                    errorSection.querySelector('div').textContent = result.message;
+                    errorSection.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorSection.querySelector('div').textContent = 'Terjadi kesalahan. Pastikan server berjalan.';
+                errorSection.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = 'Generate API Key';
+                loadingSpinner.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('verifyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const resultDiv = document.getElementById('verifyResult');
+
+            try {
+                const response = await fetch('/api/client/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ apiKey: document.getElementById('verifyApiKey').value })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    resultDiv.innerHTML = '<div class="bg-green-50 border border-green-200 rounded-xl p-4"><p class="font-bold text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>API Key Valid</p><div class="text-sm text-slate-600"><p><strong>Perusahaan:</strong> '+result.data.client.namaPerusahaan+'</p><p><strong>Email:</strong> '+result.data.client.email+'</p><p><strong>Total Request:</strong> '+result.data.requestCount.toLocaleString()+'</p><p><strong>Berlaku Hingga:</strong> '+new Date(result.data.expiresAt).toLocaleDateString('id-ID')+'</p></div></div>';
+                } else {
+                    resultDiv.innerHTML = '<div class="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700"><i class="fas fa-times-circle mr-2"></i>'+result.message+'</div>';
+                }
+                resultDiv.classList.remove('hidden');
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700"><i class="fas fa-exclamation-circle mr-2"></i>Terjadi kesalahan</div>';
+                resultDiv.classList.remove('hidden');
+            }
+        });
+
+        function copyApiKey() {
+            navigator.clipboard.writeText(document.getElementById('apiKeyResult').textContent).then(() => alert('API Key berhasil disalin!'));
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

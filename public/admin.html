@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - WashingMachine API</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>.gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+    <!-- Login Section -->
+    <div id="loginSection" class="min-h-screen flex items-center justify-center p-6">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="gradient-bg w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i class="fas fa-user-shield text-2xl text-white"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-slate-900">Admin Login</h1>
+                <p class="text-slate-500 text-sm mt-2">WashingMachine API Platform</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
+                <form id="loginForm" class="space-y-5">
+                    <div>
+                        <label class="text-sm font-bold text-slate-700">Username</label>
+                        <input type="text" id="username" required class="w-full mt-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none" placeholder="admin">
+                    </div>
+                    <div>
+                        <label class="text-sm font-bold text-slate-700">Password</label>
+                        <input type="password" id="password" required class="w-full mt-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none" placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="w-full gradient-bg text-white py-3.5 rounded-xl font-bold hover:opacity-90 transition shadow-lg">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Login
+                    </button>
+                </form>
+                <div id="loginError" class="hidden mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm"></div>
+            </div>
+            <div class="text-center mt-6">
+                <a href="/" class="text-sm text-slate-400 hover:text-purple-600"><i class="fas fa-arrow-left mr-1"></i>Kembali ke Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboardSection" class="hidden">
+        <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+            <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="gradient-bg p-2 rounded-xl"><i class="fas fa-soap text-white"></i></div>
+                    <span class="font-bold text-slate-900">Admin Dashboard</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="/" class="text-sm text-slate-500 hover:text-purple-600"><i class="fas fa-external-link-alt mr-1"></i>View Site</a>
+                    <button onclick="logout()" class="text-sm font-bold text-red-500 hover:text-red-600"><i class="fas fa-sign-out-alt mr-1"></i>Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto px-6 py-8">
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Clients</p>
+                    <h3 id="statClients" class="text-3xl font-bold text-slate-900">0</h3>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-bold text-purple-600 uppercase tracking-wider mb-1">Active API Keys</p>
+                    <h3 id="statApiKeys" class="text-3xl font-bold text-purple-600">0</h3>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Products</p>
+                    <h3 id="statProducts" class="text-3xl font-bold text-slate-900">0</h3>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-bold text-green-600 uppercase tracking-wider mb-1">Total Requests</p>
+                    <h3 id="statRequests" class="text-3xl font-bold text-green-600">0</h3>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
+                <div class="border-b border-slate-200 px-6">
+                    <div class="flex gap-6">
+                        <button onclick="showTab('clients')" class="tab-btn py-4 font-bold text-purple-600 border-b-2 border-purple-600" data-tab="clients">Clients</button>
+                        <button onclick="showTab('apikeys')" class="tab-btn py-4 font-medium text-slate-500 hover:text-slate-700" data-tab="apikeys">API Keys</button>
+                        <button onclick="showTab('products')" class="tab-btn py-4 font-medium text-slate-500 hover:text-slate-700" data-tab="products">Products</button>
+                        <button onclick="showTab('logs')" class="tab-btn py-4 font-medium text-slate-500 hover:text-slate-700" data-tab="logs">API Logs</button>
+                    </div>
+                </div>
+
+                <!-- Clients Tab -->
+                <div id="tab-clients" class="tab-content p-6">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Registered Clients</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-50"><tr class="text-left text-xs font-bold text-slate-500 uppercase">
+                                <th class="px-4 py-3">Perusahaan</th><th class="px-4 py-3">Email</th><th class="px-4 py-3">Website</th><th class="px-4 py-3">Registered</th>
+                            </tr></thead>
+                            <tbody id="clientsTable" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- API Keys Tab -->
+                <div id="tab-apikeys" class="tab-content p-6 hidden">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">API Keys</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-50"><tr class="text-left text-xs font-bold text-slate-500 uppercase">
+                                <th class="px-4 py-3">Client</th><th class="px-4 py-3">API Key</th><th class="px-4 py-3">Requests</th><th class="px-4 py-3">Last Used</th><th class="px-4 py-3">Expires</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Actions</th>
+                            </tr></thead>
+                            <tbody id="apiKeysTable" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Products Tab -->
+                <div id="tab-products" class="tab-content p-6 hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-slate-900">Products</h3>
+                        <button onclick="showAddProductModal()" class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-700"><i class="fas fa-plus mr-2"></i>Add Product</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-50"><tr class="text-left text-xs font-bold text-slate-500 uppercase">
+                                <th class="px-4 py-3">Merk</th><th class="px-4 py-3">Model</th><th class="px-4 py-3">Tipe</th><th class="px-4 py-3">Kapasitas</th><th class="px-4 py-3">Harga</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Actions</th>
+                            </tr></thead>
+                            <tbody id="productsTable" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                    <div id="productsPagination" class="flex justify-center gap-2 mt-4"></div>
+                </div>
+
+                <!-- Logs Tab -->
+                <div id="tab-logs" class="tab-content p-6 hidden">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Recent API Logs</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-50"><tr class="text-left text-xs font-bold text-slate-500 uppercase">
+                                <th class="px-4 py-3">Time</th><th class="px-4 py-3">Client</th><th class="px-4 py-3">Method</th><th class="px-4 py-3">Endpoint</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Response Time</th>
+                            </tr></thead>
+                            <tbody id="logsTable" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="productModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-slate-200 flex justify-between items-center sticky top-0 bg-white">
+                <h2 id="modalTitle" class="text-xl font-bold text-slate-900">Add New Product</h2>
+                <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <form id="productForm" class="p-6 space-y-4">
+                <input type="hidden" id="pId">
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="text-sm font-bold text-slate-700">Merk *</label><input type="text" id="pMerk" required class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5"></div>
+                    <div><label class="text-sm font-bold text-slate-700">Model *</label><input type="text" id="pModel" required class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5"></div>
+                    <div><label class="text-sm font-bold text-slate-700">Tipe *</label>
+                        <select id="pTipe" required class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5">
+                            <option value="">Pilih Tipe</option>
+                            <option value="FRONT_LOADING">Front Loading</option>
+                            <option value="TOP_LOADING">Top Loading</option>
+                            <option value="TWIN_TUB">Twin Tub</option>
+                            <option value="PORTABLE">Portable</option>
+                        </select>
+                    </div>
+                    <div><label class="text-sm font-bold text-slate-700">Kapasitas (KG) *</label><input type="number" step="0.1" id="pKapasitas" required class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5"></div>
+                    <div><label class="text-sm font-bold text-slate-700">Warna</label><input type="text" id="pWarna" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5"></div>
+                    <div><label class="text-sm font-bold text-slate-700">Harga (Rp)</label><input type="number" id="pHarga" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5"></div>
+                    <div><label class="text-sm font-bold text-slate-700">Tahun Rilis</label><input type="number" id="pTahun" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5"></div>
+                    <div><label class="text-sm font-bold text-slate-700">Gambar URL</label><input type="url" id="pGambar" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5"></div>
+                </div>
+                <div><label class="text-sm font-bold text-slate-700">Deskripsi</label><textarea id="pDeskripsi" rows="2" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5"></textarea></div>
+                <div><label class="text-sm font-bold text-slate-700">Fitur (pisahkan dengan koma)</label><input type="text" id="pFitur" placeholder="AI Control, Steam Wash" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5"></div>
+                <div><label class="text-sm font-bold text-slate-700">Spesifikasi (JSON)</label><textarea id="pSpek" rows="3" placeholder='{"dimensi":"60x55x85 cm"}' class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 font-mono text-sm"></textarea></div>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="closeProductModal()" class="bg-slate-100 text-slate-600 px-6 py-2.5 rounded-lg font-medium">Cancel</button>
+                    <button type="submit" class="bg-purple-600 text-white px-6 py-2.5 rounded-lg font-bold hover:bg-purple-700"><i class="fas fa-save mr-2"></i>Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let token = localStorage.getItem('adminToken');
+        let currentProductPage = 1;
+
+        if (token) {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.remove('hidden');
+            loadDashboard();
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errorDiv = document.getElementById('loginError');
+            try {
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: document.getElementById('username').value, password: document.getElementById('password').value })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    token = data.data.token;
+                    localStorage.setItem('adminToken', token);
+                    document.getElementById('loginSection').classList.add('hidden');
+                    document.getElementById('dashboardSection').classList.remove('hidden');
+                    loadDashboard();
+                } else {
+                    errorDiv.textContent = data.message;
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (e) {
+                errorDiv.textContent = 'Connection error';
+                errorDiv.classList.remove('hidden');
+            }
+        });
+
+        function logout() { localStorage.removeItem('adminToken'); location.reload(); }
+
+        async function loadDashboard() {
+            await loadStats();
+            await loadClients();
+            await loadApiKeys();
+            await loadProducts();
+            await loadLogs();
+        }
+
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/admin/stats', { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('statClients').textContent = data.data.totalClients;
+                    document.getElementById('statApiKeys').textContent = data.data.activeApiKeys;
+                    document.getElementById('statProducts').textContent = data.data.totalProducts;
+                    document.getElementById('statRequests').textContent = data.data.totalRequests.toLocaleString();
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadClients() {
+            try {
+                const res = await fetch('/api/admin/clients', { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                document.getElementById('clientsTable').innerHTML = data.data?.length ? data.data.map(c => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-3 font-medium">${c.namaPerusahaan}</td>
+                        <td class="px-4 py-3">${c.email}</td>
+                        <td class="px-4 py-3">${c.website || '-'}</td>
+                        <td class="px-4 py-3 text-slate-500">${new Date(c.createdAt).toLocaleDateString('id-ID')}</td>
+                    </tr>
+                `).join('') : '<tr><td colspan="4" class="px-4 py-8 text-center text-slate-400">No clients yet</td></tr>';
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadApiKeys() {
+            try {
+                const res = await fetch('/api/admin/api-keys', { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                document.getElementById('apiKeysTable').innerHTML = data.data?.length ? data.data.map(k => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-3 font-medium">${k.client?.namaPerusahaan || '-'}</td>
+                        <td class="px-4 py-3 font-mono text-xs">${k.apiKey.substring(0,20)}...</td>
+                        <td class="px-4 py-3">${k.requestCount.toLocaleString()}</td>
+                        <td class="px-4 py-3 text-slate-500">${k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleString('id-ID') : '-'}</td>
+                        <td class="px-4 py-3 text-slate-500">${new Date(k.expiresAt).toLocaleDateString('id-ID')}</td>
+                        <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${k.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${k.isActive ? 'Active' : 'Inactive'}</span></td>
+                        <td class="px-4 py-3">
+                            <button onclick="toggleApiKey(${k.id})" class="text-blue-600 hover:text-blue-700 mr-2" title="Toggle Status"><i class="fas fa-power-off"></i></button>
+                            <button onclick="deleteApiKey(${k.id})" class="text-red-500 hover:text-red-600" title="Delete"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('') : '<tr><td colspan="7" class="px-4 py-8 text-center text-slate-400">No API keys yet</td></tr>';
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadProducts(page = 1) {
+            currentProductPage = page;
+            try {
+                const res = await fetch(`/api/admin/products?page=${page}&limit=10`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                const tipeLabel = { 'TOP_LOADING': 'Top Loading', 'FRONT_LOADING': 'Front Loading', 'TWIN_TUB': 'Twin Tub', 'PORTABLE': 'Portable' };
+                document.getElementById('productsTable').innerHTML = data.data?.length ? data.data.map(p => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-3 font-bold">${p.merk}</td>
+                        <td class="px-4 py-3 font-mono text-sm">${p.model}</td>
+                        <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs font-bold bg-purple-100 text-purple-700">${tipeLabel[p.tipe]}</span></td>
+                        <td class="px-4 py-3">${p.kapasitas} KG</td>
+                        <td class="px-4 py-3">${p.harga ? 'Rp '+p.harga.toLocaleString('id-ID') : '-'}</td>
+                        <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${p.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${p.isActive ? 'Active' : 'Inactive'}</span></td>
+                        <td class="px-4 py-3">
+                            <button onclick="editProduct(${p.id})" class="text-blue-600 hover:text-blue-700 mr-2"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('') : '<tr><td colspan="7" class="px-4 py-8 text-center text-slate-400">No products yet</td></tr>';
+
+                if (data.pagination) {
+                    let paginationHtml = '';
+                    for (let i = 1; i <= data.pagination.totalPages; i++) {
+                        paginationHtml += `<button onclick="loadProducts(${i})" class="px-3 py-1 rounded ${i === page ? 'bg-purple-600 text-white' : 'bg-slate-200'}">${i}</button>`;
+                    }
+                    document.getElementById('productsPagination').innerHTML = paginationHtml;
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadLogs() {
+            try {
+                const res = await fetch('/api/admin/logs?limit=20', { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                document.getElementById('logsTable').innerHTML = data.data?.length ? data.data.map(l => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-3 text-slate-500">${new Date(l.createdAt).toLocaleString('id-ID')}</td>
+                        <td class="px-4 py-3">${l.client?.namaPerusahaan || '-'}</td>
+                        <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700">${l.method}</span></td>
+                        <td class="px-4 py-3 font-mono text-xs">${l.endpoint}</td>
+                        <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${l.statusCode < 400 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${l.statusCode}</span></td>
+                        <td class="px-4 py-3">${l.responseTime}ms</td>
+                    </tr>
+                `).join('') : '<tr><td colspan="6" class="px-4 py-8 text-center text-slate-400">No logs yet</td></tr>';
+            } catch (e) { console.error(e); }
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('text-purple-600', 'border-b-2', 'border-purple-600', 'font-bold'); b.classList.add('text-slate-500', 'font-medium'); });
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('text-purple-600', 'border-b-2', 'border-purple-600', 'font-bold');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.remove('text-slate-500', 'font-medium');
+        }
+
+        function showAddProductModal() {
+            document.getElementById('modalTitle').textContent = 'Add New Product';
+            document.getElementById('productForm').reset();
+            document.getElementById('pId').value = '';
+            document.getElementById('productModal').classList.remove('hidden');
+            document.getElementById('productModal').classList.add('flex');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+            document.getElementById('productModal').classList.remove('flex');
+        }
+
+        async function editProduct(id) {
+            try {
+                const res = await fetch(`/api/admin/products?page=1&limit=100`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                const p = data.data.find(x => x.id === id);
+                if (p) {
+                    document.getElementById('modalTitle').textContent = 'Edit Product';
+                    document.getElementById('pId').value = p.id;
+                    document.getElementById('pMerk').value = p.merk;
+                    document.getElementById('pModel').value = p.model;
+                    document.getElementById('pTipe').value = p.tipe;
+                    document.getElementById('pKapasitas').value = p.kapasitas;
+                    document.getElementById('pWarna').value = p.warna || '';
+                    document.getElementById('pHarga').value = p.harga || '';
+                    document.getElementById('pTahun').value = p.tahunRilis || '';
+                    document.getElementById('pGambar').value = p.gambarUrl || '';
+                    document.getElementById('pDeskripsi').value = p.deskripsi || '';
+                    document.getElementById('pFitur').value = p.fitur ? (typeof p.fitur === 'string' ? JSON.parse(p.fitur) : p.fitur).join(', ') : '';
+                    document.getElementById('pSpek').value = p.spesifikasi ? JSON.stringify(typeof p.spesifikasi === 'string' ? JSON.parse(p.spesifikasi) : p.spesifikasi, null, 2) : '';
+                    document.getElementById('productModal').classList.remove('hidden');
+                    document.getElementById('productModal').classList.add('flex');
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('pId').value;
+            const isEdit = !!id;
+
+            let spek = null;
+            try { if (document.getElementById('pSpek').value) spek = JSON.parse(document.getElementById('pSpek').value); } catch (e) { alert('Invalid JSON for spesifikasi'); return; }
+
+            const fiturVal = document.getElementById('pFitur').value;
+            const fitur = fiturVal ? fiturVal.split(',').map(f => f.trim()).filter(f => f) : null;
+
+            const body = {
+                merk: document.getElementById('pMerk').value,
+                model: document.getElementById('pModel').value,
+                tipe: document.getElementById('pTipe').value,
+                kapasitas: parseFloat(document.getElementById('pKapasitas').value),
+                warna: document.getElementById('pWarna').value || null,
+                harga: document.getElementById('pHarga').value ? parseInt(document.getElementById('pHarga').value) : null,
+                tahun_rilis: document.getElementById('pTahun').value ? parseInt(document.getElementById('pTahun').value) : null,
+                gambar_url: document.getElementById('pGambar').value || null,
+                deskripsi: document.getElementById('pDeskripsi').value || null,
+                spesifikasi: spek,
+                fitur: fitur
+            };
+
+            try {
+                const res = await fetch(isEdit ? `/api/admin/products/${id}` : '/api/admin/products', {
+                    method: isEdit ? 'PUT' : 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert(isEdit ? 'Product updated!' : 'Product added!');
+                    closeProductModal();
+                    loadProducts(currentProductPage);
+                    loadStats();
+                } else {
+                    alert(data.message);
+                }
+            } catch (e) { alert('Error saving product'); }
+        });
+
+        async function deleteProduct(id) {
+            if (!confirm('Delete this product?')) return;
+            try {
+                const res = await fetch(`/api/admin/products/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                if (data.success) { loadProducts(currentProductPage); loadStats(); }
+            } catch (e) { console.error(e); }
+        }
+
+        async function toggleApiKey(id) {
+            try {
+                const res = await fetch(`/api/admin/api-keys/${id}/toggle`, { method: 'PATCH', headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                if (data.success) { loadApiKeys(); loadStats(); }
+            } catch (e) { console.error(e); }
+        }
+
+        async function deleteApiKey(id) {
+            if (!confirm('Delete this API Key?')) return;
+            try {
+                const res = await fetch(`/api/admin/api-keys/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                if (data.success) { loadApiKeys(); loadStats(); }
+            } catch (e) { console.error(e); }
+        }
+
+        document.getElementById('productModal').addEventListener('click', function(e) { if (e.target === this) closeProductModal(); });
+    </script>
+</body>
+</html>
