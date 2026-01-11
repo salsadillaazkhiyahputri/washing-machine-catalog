@@ -81,12 +81,12 @@ exports.getStats = async (req, res) => {
     const topClients = await ApiLog.findAll({
       attributes: [
         'clientId',
-        [fn('COUNT', col('id')), 'totalRequests']
+        [fn('COUNT', col('Apilog.id')), 'totalRequests']
       ],
       include: [{
         model: Client,
         as: 'client',
-        attributes: ['namaPerusahaan', 'email']
+        attributes: ['nama', 'email']
       }],
       group: ['clientId', 'client.id'],
       order: [[literal('totalRequests'), 'DESC']],
@@ -148,7 +148,7 @@ exports.getAllApiKeys = async (req, res) => {
       include: [{
         model: Client,
         as: 'client',
-        attributes: ['id', 'namaPerusahaan', 'email']
+        attributes: ['id', 'nama', 'email']
       }],
       order: [['createdAt', 'DESC']]
     });
@@ -243,7 +243,7 @@ exports.getApiLogs = async (req, res) => {
       include: [{
         model: Client,
         as: 'client',
-        attributes: ['namaPerusahaan']
+        attributes: ['nama']
       }],
       order: [['createdAt', 'DESC']],
       limit: parseInt(limit),
