@@ -9,13 +9,13 @@ const generateRandomApiKey = () => {
 // Register Client & Generate API Key
 exports.generateApiKey = async (req, res) => {
   try {
-    const { namaPerusahaan, email, noTelepon, alamat, website } = req.body;
+    const { nama, email, noTelepon, alamat} = req.body;
 
     // Validasi input
-    if (!namaPerusahaan || !email) {
+    if (!nama || !email) {
       return res.status(400).json({
         success: false,
-        message: 'Nama Perusahaan dan Email wajib diisi.'
+        message: 'Namadan Email wajib diisi.'
       });
     }
 
@@ -31,12 +31,12 @@ exports.generateApiKey = async (req, res) => {
     // Cari atau buat data client
     let [client, created] = await Client.findOrCreate({
       where: { email },
-      defaults: { namaPerusahaan, noTelepon, alamat, website }
+      defaults: { nama, noTelepon, alamat}
     });
 
     // Update data jika client sudah ada
     if (!created) {
-      await client.update({ namaPerusahaan, noTelepon, alamat, website });
+      await client.update({ nama, noTelepon, alamat});
     }
 
     // Generate API Key
@@ -56,7 +56,7 @@ exports.generateApiKey = async (req, res) => {
       data: {
         apiKey: keyString,
         clientId: client.id,
-        namaPerusahaan: client.namaPerusahaan,
+        nama: client.nama,
         email: client.email,
         expiresAt: expiresAt,
         isNewClient: created
@@ -89,7 +89,7 @@ exports.verifyApiKey = async (req, res) => {
       include: [{
         model: Client,
         as: 'client',
-        attributes: ['id', 'namaPerusahaan', 'email']
+        attributes: ['id', 'nama', 'email']
       }]
     });
 
