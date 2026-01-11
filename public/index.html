@@ -60,7 +60,7 @@
                 <form id="registerForm" class="space-y-5">
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-2">Nama*</label>
-                        <input type="text" id="namaPerusahaan" required placeholder="user" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none">
+                        <input type="text" id="nama" required placeholder="user" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-2">Email*</label>
@@ -69,10 +69,6 @@
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-2">No. Telepon</label>
                         <input type="tel" id="noTelepon" placeholder="021-1234567" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">Website</label>
-                        <input type="url" id="website" placeholder="https://www.company.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-2">Alamat</label>
@@ -323,10 +319,9 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        namaPerusahaan: document.getElementById('namaPerusahaan').value,
+                        nama: document.getElementById('nama').value,
                         email: document.getElementById('email').value,
                         noTelepon: document.getElementById('noTelepon').value,
-                        website: document.getElementById('website').value,
                         alamat: document.getElementById('alamat').value
                     })
                 });
@@ -334,7 +329,7 @@
 
                 if (result.success) {
                     document.getElementById('apiKeyResult').textContent = result.data.apiKey;
-                    document.getElementById('resultCompany').textContent = result.data.namaPerusahaan;
+                    document.getElementById('resultCompany').textContent = result.data.nama;
                     document.getElementById('resultEmail').textContent = result.data.email;
                     document.getElementById('resultExpires').textContent = new Date(result.data.expiresAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
                     resultSection.classList.remove('hidden');
@@ -366,7 +361,7 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    resultDiv.innerHTML = '<div class="bg-green-50 border border-green-200 rounded-xl p-4"><p class="font-bold text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>API Key Valid</p><div class="text-sm text-slate-600"><p><strong>Perusahaan:</strong> '+result.data.client.namaPerusahaan+'</p><p><strong>Email:</strong> '+result.data.client.email+'</p><p><strong>Total Request:</strong> '+result.data.requestCount.toLocaleString()+'</p><p><strong>Berlaku Hingga:</strong> '+new Date(result.data.expiresAt).toLocaleDateString('id-ID')+'</p></div></div>';
+                    resultDiv.innerHTML = '<div class="bg-green-50 border border-green-200 rounded-xl p-4"><p class="font-bold text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>API Key Valid</p><div class="text-sm text-slate-600"><p><strong>Perusahaan:</strong> '+result.data.client.nama+'</p><p><strong>Email:</strong> '+result.data.client.email+'</p><p><strong>Total Request:</strong> '+result.data.requestCount.toLocaleString()+'</p><p><strong>Berlaku Hingga:</strong> '+new Date(result.data.expiresAt).toLocaleDateString('id-ID')+'</p></div></div>';
                 } else {
                     resultDiv.innerHTML = '<div class="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700"><i class="fas fa-times-circle mr-2"></i>'+result.message+'</div>';
                 }
