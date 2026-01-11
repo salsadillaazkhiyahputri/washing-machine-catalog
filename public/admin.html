@@ -94,7 +94,7 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm">
                             <thead class="bg-slate-50"><tr class="text-left text-xs font-bold text-slate-500 uppercase">
-                                <th class="px-4 py-3">Perusahaan</th><th class="px-4 py-3">Email</th><th class="px-4 py-3">Website</th><th class="px-4 py-3">Registered</th>
+                                <th class="px-4 py-3">Nama</th><th class="px-4 py-3">Email</th><th class="px-4 py-3">Registered</th>
                             </tr></thead>
                             <tbody id="clientsTable" class="divide-y divide-slate-100"></tbody>
                         </table>
@@ -250,9 +250,8 @@
                 const data = await res.json();
                 document.getElementById('clientsTable').innerHTML = data.data?.length ? data.data.map(c => `
                     <tr class="hover:bg-slate-50">
-                        <td class="px-4 py-3 font-medium">${c.namaPerusahaan}</td>
+                        <td class="px-4 py-3 font-medium">${c.nama}</td>
                         <td class="px-4 py-3">${c.email}</td>
-                        <td class="px-4 py-3">${c.website || '-'}</td>
                         <td class="px-4 py-3 text-slate-500">${new Date(c.createdAt).toLocaleDateString('id-ID')}</td>
                     </tr>
                 `).join('') : '<tr><td colspan="4" class="px-4 py-8 text-center text-slate-400">No clients yet</td></tr>';
@@ -265,7 +264,7 @@
                 const data = await res.json();
                 document.getElementById('apiKeysTable').innerHTML = data.data?.length ? data.data.map(k => `
                     <tr class="hover:bg-slate-50">
-                        <td class="px-4 py-3 font-medium">${k.client?.namaPerusahaan || '-'}</td>
+                        <td class="px-4 py-3 font-medium">${k.client?.nama || '-'}</td>
                         <td class="px-4 py-3 font-mono text-xs">${k.apiKey.substring(0,20)}...</td>
                         <td class="px-4 py-3">${k.requestCount.toLocaleString()}</td>
                         <td class="px-4 py-3 text-slate-500">${k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleString('id-ID') : '-'}</td>
@@ -318,7 +317,7 @@
                 document.getElementById('logsTable').innerHTML = data.data?.length ? data.data.map(l => `
                     <tr class="hover:bg-slate-50">
                         <td class="px-4 py-3 text-slate-500">${new Date(l.createdAt).toLocaleString('id-ID')}</td>
-                        <td class="px-4 py-3">${l.client?.namaPerusahaan || '-'}</td>
+                        <td class="px-4 py-3">${l.client?.nama || '-'}</td>
                         <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700">${l.method}</span></td>
                         <td class="px-4 py-3 font-mono text-xs">${l.endpoint}</td>
                         <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${l.statusCode < 400 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${l.statusCode}</span></td>
