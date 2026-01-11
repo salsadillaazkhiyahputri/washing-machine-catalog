@@ -7,10 +7,10 @@ const Client = sequelize.define('Client', {
     primaryKey: true,
     autoIncrement: true
   },
-  namaPerusahaan: {
+  nama: {
     type: DataTypes.STRING(200),
     allowNull: false,
-    field: 'nama_perusahaan'
+    field: 'nama'
   },
   email: {
     type: DataTypes.STRING(255),
@@ -27,10 +27,6 @@ const Client = sequelize.define('Client', {
   },
   alamat: {
     type: DataTypes.TEXT,
-    allowNull: true
-  },
-  website: {
-    type: DataTypes.STRING(255),
     allowNull: true
   },
   createdAt: {
